@@ -16,33 +16,46 @@ public class SnakeAndLadder {
         System.out.println("Dice value : " + diceValue);
         return diceValue;
     }
+
     public static int playerChecksOption() {
+        int dicecount = 0;
         int currentPosition = START_POSITION_LADDER;
-        int checkOption = random.nextInt(3);
-        int dice = dieRoll();
-        switch (checkOption) {
-            case NO_FUTHER_PLAY:
-                currentPosition = currentPosition;
-                position = "Not played";
-                break;
-            case LADDER:
-                currentPosition += dice;
-                position = "Player is on Ladder";
-                break;
-            case SNAKE:
-                if (currentPosition <START_POSITION_LADDER)
-                currentPosition -= dice;
-                position = "Player is on Snake";
-                break;
+        while (currentPosition < END_POSITION_LADDER) {
+            int checkOption = random.nextInt(3);
+            int dice = dieRoll();
+            dicecount ++;
+            switch (checkOption) {
+                case NO_FUTHER_PLAY -> {
+                    position = "Not played";
+                    currentPosition = currentPosition;
+                }
+                case LADDER -> {
+                    if (currentPosition + dice > END_POSITION_LADDER) {
+                        currentPosition = currentPosition;
+                    } else {
+                        currentPosition += dice;
+                    }
+                }
+                case SNAKE -> {
+                    position = "Player is on Snake";
+                    if (currentPosition - dice <= START_POSITION_LADDER) {
+                        currentPosition = START_POSITION_LADDER;
+                    } else {
+                        currentPosition -= dice;
+                    }
+                }
+            }
+            System.out.println("Player's Position :" + position + ",  #Current Position :" + currentPosition);
+            System.out.println("Dice Count : " + dicecount);
         }
-        System.out.println("Player's Position :" + position + ",  #Current Position :" + currentPosition);
         return currentPosition;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to Snake and Ladder Game");
-        playerChecksOption();
+    public static void main (String[] args){
+            System.out.println("Welcome to Snake and Ladder Game");
+            playerChecksOption();
 
-    }
+        }
+
 
 }
